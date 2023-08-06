@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -14,22 +15,32 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Skeleton } from "@/components/ui/skeleton"
 
 import { PortfolioPicker } from "@/components/portfolio-picker"
 import { useToast } from "@/components/ui/use-toast"
+import { Portfolio } from "@/db/schema/portfolio"
 
-var portfolios = [
-  { value: 1, label: "Portfolio1" },
-  { value: 2, label: "Portfolio2" },
-  { value: 3, label: "Portfolio3" },
-]
+export function PortfolioNavLoading() {
+  return (
+    <nav className="flex h-16 grow flex-row items-center space-x-10 px-4">
+      <div className="flex-grow"></div>
+      <div className="flex">
+        <Skeleton className="inline-flex items-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 w-[200px] justify-between" />
+        <Skeleton className="w-[7.65rem] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 ml-4" />
+      </div>
+    </nav>
+  )
+}
 
-export default function PortfolioNav() {
 
-  const [portfolioValue, setPortfolioValue] = useState(0)
+export default function PortfolioNav({ params }: { params: { id: number } }) {
+  const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
+  const [portfolioValue, setPortfolioValue] = useState(Number(params.id))
   const [newPortfolioValue, setNewPortfolioValue] = useState("")
   const [dialogOpen, setDialogOpen] = useState(false)
   const { toast } = useToast()
+  const router = useRouter()
 
   function handleSubmit(event : any) {
     event.preventDefault()
@@ -42,9 +53,8 @@ export default function PortfolioNav() {
       })
       return
     }
-
     // Check for duplicate portfolio name
-    if (portfolios.find((portfolio) => portfolio.label === newPortfolioValue)) {
+    if (portfolios.find((portfolio) => portfolio.name === newPortfolioValue)) {
       toast({
         variant: "destructive",
         title: "Portfolio name already exists",
@@ -53,8 +63,8 @@ export default function PortfolioNav() {
       return
     }
 
-    portfolios.push({ value: portfolios.length + 1, label: newPortfolioValue })
-    setPortfolioValue(portfolios.length)
+    portfolios.push({ id: portfolios.length + 1, name: newPortfolioValue, description: "" })
+    handlePortfolioChange(portfolios.length)
     setNewPortfolioValue("")
     setDialogOpen(false)
   }
@@ -63,13 +73,31 @@ export default function PortfolioNav() {
     setNewPortfolioValue(event.target.value)
   }
 
+  function handlePortfolioChange(value : any) {
+    setPortfolioValue(value)
+    router.refresh()
+    router.push(`/portfolio/${value}`)
+  }
+
+
+  useEffect(() => {
+    // Fetch the portfolios and set them to the local state
+    const loadData = async () => {
+      const data = await fetch("/api/portfolio").then((res) => res.json());
+      setPortfolios(data);
+    }
+
+    loadData();
+  }, []);
+
+
   return (
     <nav className="flex h-16 grow flex-row items-center space-x-10 px-4">
       <div className="flex-grow"></div>
       <div className="flex">
         <PortfolioPicker
           value={portfolioValue}
-          onValueChange={setPortfolioValue}
+          onValueChange={handlePortfolioChange}
           portfolios={portfolios}
         />
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

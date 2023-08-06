@@ -36,7 +36,7 @@ export function MainNav({
             key={href}
             href={href}
             className={cn(
-              pathname === href ? "" : "text-muted-foreground",
+              pathname.substring(0, href.length) === href ? "" : "text-muted-foreground",
               "text-sm font-medium transition-colors hover:text-primary",
             )}
           >

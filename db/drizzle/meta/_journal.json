@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1691275010015,
+      "tag": "0000_groovy_slayback",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1691278671438,
+      "tag": "0001_petite_omega_flight",
+      "breakpoints": true
+    }
+  ]
+}

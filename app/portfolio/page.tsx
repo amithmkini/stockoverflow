@@ -1,19 +1,43 @@
-import type { Metadata } from "next"
+// Get a list of portfolios, and redirect to the first one.
+"use client"
 
-import PortfolioNav from "./portfolio-nav";
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useState, Suspense } from 'react'
+import { PortfolioNavLoading } from './portfolio-nav'
+import { Portfolio } from '@/db/schema/portfolio'
 
-export const metadata: Metadata = {
-  title: "Portfolio - StockOverflow",
-  description: "Portfolio page of StockOverflow",
-};
+// let portfolios = [
+//   { id: 1, name: 'Portfolio 1' },
+//   { id: 2, name: 'Portfolio 2' },
+//   { id: 3, name: 'Portfolio 3' },
+// ]
 
 export default function Portfolio() {
-  // The navbar of the portfolio page and its contents
+  const { push } = useRouter()
+  const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
+  const [firstPortfolio, setFirstPortfolio] = useState<Portfolio | null>(null)
+
+  useEffect(() => {
+    // Fetch the portfolios and set them to the local state
+    const loadData = async () => {
+      const data = await fetch("/api/portfolio").then((res) => res.json());
+      setPortfolios(data);
+      setFirstPortfolio(data[0])
+    }
+
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    if (firstPortfolio) {
+      push(`/portfolio/${firstPortfolio.id}`)
+    }
+  }, [firstPortfolio]);
+
   return (
     <main>
-      <div className="flex flex-col">
-        <PortfolioNav />
-      </div>
+      <PortfolioNavLoading />
     </main>
   );
 }

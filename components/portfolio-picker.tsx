@@ -17,11 +17,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Portfolio } from "@/db/schema/portfolio";
 
-interface Portfolio {
-  value: number;
-  label: string;
-}
 
 interface PortfolioPickerProps {
   value: number;
@@ -47,7 +44,7 @@ export function PortfolioPicker({
           className="w-[200px] justify-between"
         >
           {value
-            ? portfolios.find((portfolio) => portfolio.value === value)?.label
+            ? portfolios.find((portfolio) => portfolio.id === value)?.name
             : "Select portfolio..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -59,19 +56,19 @@ export function PortfolioPicker({
           <CommandGroup>
             {portfolios.map((portfolio) => (
               <CommandItem
-                key={portfolio.value}
+                key={portfolio.id}
                 onSelect={() => {
-                  onValueChange(portfolio.value)
+                  onValueChange(portfolio.id)
                   setOpen(false);
                 }}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === portfolio.value ? "opacity-100" : "opacity-0",
+                    value === portfolio.id ? "opacity-100" : "opacity-0",
                   )}
                 />
-                {portfolio.label}
+                {portfolio.name}
               </CommandItem>
             ))}
           </CommandGroup>

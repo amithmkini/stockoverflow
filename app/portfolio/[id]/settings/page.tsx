@@ -4,7 +4,7 @@ export default function PortfolioSettings({ params }: { params: { id: number }})
   return (
     <main>
       <div className="flex flex-col">
-        <PortfolioNav />
+        <PortfolioNav params={params}/>
       </div>
       <div className="flex flex-col">
         <div className="text-xl m-4">
