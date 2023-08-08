@@ -23,9 +23,11 @@ export function MainNav({
   const pathname = usePathname();
 
   return (
-    <div className="flex grow flex-row space-x-10">
-      <div className={cn("text-2xl font-bold", openSans.className)}>
-        <span className="text-orange-600">stock</span>overflow
+    <div className="flex grow flex-row justify-between space-x-10">
+      <div className="hidden sm:block">
+        <div className={cn("text-2xl font-bold", openSans.className)}>
+          <span className="text-orange-600">stock</span>overflow
+        </div>
       </div>
       <nav
         className={cn("flex items-center space-x-4 lg:space-x-6", className)}
@@ -44,7 +46,7 @@ export function MainNav({
           </Link>
         ))}
       </nav>
-      <div className="flex-grow"></div>
+      <div className="flex-grow hidden sm:block"></div>
       <div className="flex flex-row items-center space-x-4">
         <ModeToggle />
         <AvatarDropdown />

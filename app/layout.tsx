@@ -1,6 +1,7 @@
 import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import { ClerkProvider } from "@clerk/nextjs"
 
 import { ThemeProvider } from "@/components/theme-provider"
 import { MainNav } from "@/components/main-nav"
@@ -20,17 +21,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="flex h-16 items-center border-b px-4">
-            <MainNav />
-          </div>
-          {children}
-        </ThemeProvider>
-        <TailwindIndicator />
-        <Toaster />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <div className="flex h-16 items-center border-b px-4">
+              <MainNav />
+            </div>
+            {children}
+          </ThemeProvider>
+          <TailwindIndicator />
+          <Toaster />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

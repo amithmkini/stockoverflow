@@ -92,8 +92,8 @@ export default function PortfolioNav({ params }: { params: { id: number } }) {
 
 
   return (
-    <nav className="flex h-16 grow flex-row items-center space-x-10 px-4">
-      <div className="flex-grow"></div>
+    <nav className="flex h-16 grow flex-row items-center justify-end space-x-10 px-4">
+      <div className="flex-grow hidden sm:block"></div>
       <div className="flex">
         <PortfolioPicker
           value={portfolioValue}
@@ -102,11 +102,18 @@ export default function PortfolioNav({ params }: { params: { id: number } }) {
         />
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="ml-4">New portfolio</Button>
+            <Button className="ml-4">
+              <span className="block sm:hidden">
+                +
+              </span>
+              <span className="hidden sm:block">
+                New portfolio
+              </span>
+            </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>New portfolio</DialogTitle>
+              <DialogTitle>New Portfolio</DialogTitle>
               <DialogDescription>
                 Create a new portfolio to manage your assets.
               </DialogDescription>

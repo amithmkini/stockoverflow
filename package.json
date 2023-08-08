@@ -11,6 +11,7 @@
     "migrate": "tsx migrate.ts"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.23.2",
     "@neondatabase/serverless": "^0.5.6",
     "@radix-ui/react-avatar": "^1.0.3",
     "@radix-ui/react-dialog": "^1.0.4",
@@ -35,7 +36,7 @@
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.12",
     "lucide-react": "^0.263.1",
-    "next": "13.4.12",
+    "next": "13.4.13",
     "next-themes": "^0.2.1",
     "postcss": "8.4.27",
     "postgres": "^3.3.5",
@@ -44,12 +45,12 @@
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.6",
-    "tsx": "^3.12.7",
     "typescript": "5.1.6"
   },
   "devDependencies": {
     "drizzle-kit": "^0.19.12",
     "prettier": "^3.0.0",
-    "prettier-plugin-tailwindcss": "^0.4.1"
+    "prettier-plugin-tailwindcss": "^0.4.1",
+    "tsx": "^3.12.7"
   }
 }
