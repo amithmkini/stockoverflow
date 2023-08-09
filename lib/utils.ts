@@ -1,30 +1,33 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs))
 }
 
-export function slugify(str : string) {
+export function slugify(str: string) {
   // Remove whitespace from both sides of a string
-  str = str.replace(/^\s+|\s+$/g, '');
+  str = str.replace(/^\s+|\s+$/g, '')
 
   // Make the string lowercase
-  str = str.toLowerCase();
+  str = str.toLowerCase()
 
   // Remove accents, swap ñ for n, etc
-  var from = "ÁÄÂÀÃÅČÇĆĎÉĚËÈÊẼĔȆÍÌÎÏŇÑÓÖÒÔÕØŘŔŠŤÚŮÜÙÛÝŸŽáäâàãåčçćďéěëèêẽĕȇíìîïňñóöòôõøðřŕšťúůüùûýÿžþÞĐđßÆa·/_,:;";
-  var to   = "AAAAAACCCDEEEEEEEEIIIINNOOOOOORRSTUUUUUYYZaaaaaacccdeeeeeeeeiiiinnooooooorrstuuuuuyyzbBDdBAa------";
-  for (var i=0, l=from.length ; i<l ; i++) {
-    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+  var from =
+    'ÁÄÂÀÃÅČÇĆĎÉĚËÈÊẼĔȆÍÌÎÏŇÑÓÖÒÔÕØŘŔŠŤÚŮÜÙÛÝŸŽáäâàãåčçćďéěëèêẽĕȇíìîïňñóöòôõøðřŕšťúůüùûýÿžþÞĐđßÆa·/_,:;'
+  var to =
+    'AAAAAACCCDEEEEEEEEIIIINNOOOOOORRSTUUUUUYYZaaaaaacccdeeeeeeeeiiiinnooooooorrstuuuuuyyzbBDdBAa------'
+  for (var i = 0, l = from.length; i < l; i++) {
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i))
   }
 
   // Remove invalid chars
-  str = str.replace(/[^a-z0-9 -]/g, '') 
-  // Collapse whitespace and replace by -
-  .replace(/\s+/g, '-') 
-  // Collapse dashes
-  .replace(/-+/g, '-'); 
+  str = str
+    .replace(/[^a-z0-9 -]/g, '')
+    // Collapse whitespace and replace by -
+    .replace(/\s+/g, '-')
+    // Collapse dashes
+    .replace(/-+/g, '-')
 
-  return str;
+  return str
 }

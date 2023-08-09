@@ -1,17 +1,12 @@
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton
-} from "@clerk/nextjs"
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 
 export function AvatarDropdown() {
   return (
     <>
       <SignedIn>
-        <UserButton afterSignOutUrl="/"/>
+        <UserButton afterSignOutUrl="/" />
       </SignedIn>
       <SignedOut>
         <SignInButton mode="modal">

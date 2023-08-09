@@ -1,30 +1,30 @@
-import "./globals.css"
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import { ClerkProvider } from "@clerk/nextjs"
+import './globals.css'
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
 
-import { ThemeProvider } from "@/components/theme-provider"
-import { MainNav } from "@/components/main-nav"
-import { Toaster } from "@/components/ui/toaster"
-import { TailwindIndicator } from "@/components/tailwind-indicator"
+import { ThemeProvider } from '@/components/theme-provider'
+import { MainNav } from '@/components/main-nav'
+import { Toaster } from '@/components/ui/toaster'
+import { TailwindIndicator } from '@/components/tailwind-indicator'
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "StockOverflow",
-  description: "A portfolio tracker for the masses",
-};
+  title: 'StockOverflow',
+  description: 'A portfolio tracker for the masses',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <ClerkProvider
       appearance={{
-        baseTheme: dark
+        baseTheme: dark,
       }}
     >
       <html lang="en">
@@ -40,5 +40,5 @@ export default function RootLayout({
         </body>
       </html>
     </ClerkProvider>
-  );
+  )
 }

@@ -1,28 +1,28 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import * as React from 'react'
+import { Check, ChevronsUpDown } from 'lucide-react'
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command";
+} from '@/components/ui/command'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Portfolio } from "@/db/schema/portfolio";
+} from '@/components/ui/popover'
+import { Portfolio } from '@/db/schema/portfolio'
 
 interface PortfolioPickerProps {
-  value: Portfolio | null;
-  onValueChange: (value: Portfolio) => void;
-  portfolios: Portfolio[];
+  value: Portfolio | null
+  onValueChange: (value: Portfolio) => void
+  portfolios: Portfolio[]
 }
 
 // Pass the useState as a prop to the Popover component
@@ -31,7 +31,7 @@ export function PortfolioPicker({
   onValueChange,
   portfolios,
 }: PortfolioPickerProps) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -42,9 +42,7 @@ export function PortfolioPicker({
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value
-            ? value.name
-            : "Select portfolio..."}
+          {value ? value.name : 'Select portfolio...'}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -58,13 +56,17 @@ export function PortfolioPicker({
                 key={portfolio.id}
                 onSelect={() => {
                   onValueChange(portfolio)
-                  setOpen(false);
+                  setOpen(false)
                 }}
               >
                 <Check
                   className={cn(
-                    "mr-2 h-4 w-4",
-                    value ? (value.id === portfolio.id ? "opacity-100" : "opacity-0") : "opacity-0",
+                    'mr-2 h-4 w-4',
+                    value
+                      ? value.id === portfolio.id
+                        ? 'opacity-100'
+                        : 'opacity-0'
+                      : 'opacity-0',
                   )}
                 />
                 {portfolio.name}
@@ -74,5 +76,5 @@ export function PortfolioPicker({
         </Command>
       </PopoverContent>
     </Popover>
-  );
+  )
 }
