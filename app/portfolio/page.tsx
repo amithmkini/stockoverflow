@@ -7,12 +7,6 @@ import { useState, Suspense } from 'react'
 import { PortfolioNavLoading } from './portfolio-nav'
 import { Portfolio } from '@/db/schema/portfolio'
 
-// let portfolios = [
-//   { id: 1, name: 'Portfolio 1' },
-//   { id: 2, name: 'Portfolio 2' },
-//   { id: 3, name: 'Portfolio 3' },
-// ]
-
 export default function Portfolio() {
   const { push } = useRouter()
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
@@ -31,7 +25,9 @@ export default function Portfolio() {
 
   useEffect(() => {
     if (firstPortfolio) {
-      push(`/portfolio/${firstPortfolio.id}`)
+      push(`/portfolio/${firstPortfolio.slug}`)
+    } else {
+      push(`/portfolio/new`)
     }
   }, [firstPortfolio]);
 

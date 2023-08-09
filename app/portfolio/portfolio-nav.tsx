@@ -16,10 +16,11 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Skeleton } from "@/components/ui/skeleton"
-
-import { PortfolioPicker } from "@/components/portfolio-picker"
 import { useToast } from "@/components/ui/use-toast"
+import { PortfolioPicker } from "@/components/portfolio-picker"
+
 import { Portfolio } from "@/db/schema/portfolio"
+import { slugify } from "@/lib/utils"
 
 export function PortfolioNavLoading() {
   return (
@@ -33,19 +34,25 @@ export function PortfolioNavLoading() {
   )
 }
 
+interface PortfolioNavProps {
+  portfolio: Portfolio | null,
+  showDialog?: boolean,
+}
 
-export default function PortfolioNav({ params }: { params: { id: number } }) {
+export default function PortfolioNav({ portfolio, showDialog = false }: PortfolioNavProps) {
+  // Find the portfolio with the given slug
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
-  const [portfolioValue, setPortfolioValue] = useState(Number(params.id))
-  const [newPortfolioValue, setNewPortfolioValue] = useState("")
+  const [currentPortfolio, setCurrentPortfolio] = useState<Portfolio | null>(portfolio);
+  const [newPortfolioName, setNewPortfolioName] = useState("")
+
   const [dialogOpen, setDialogOpen] = useState(false)
   const { toast } = useToast()
   const router = useRouter()
 
-  function handleSubmit(event : any) {
+  async function handleSubmit(event : any) {
     event.preventDefault()
     // Validation. Check for empty string
-    if (!newPortfolioValue.trim()) {
+    if (!newPortfolioName.trim()) {
       toast({
         variant: "destructive",
         title: "Portfolio name cannot be empty",
@@ -53,8 +60,20 @@ export default function PortfolioNav({ params }: { params: { id: number } }) {
       })
       return
     }
-    // Check for duplicate portfolio name
-    if (portfolios.find((portfolio) => portfolio.name === newPortfolioValue)) {
+
+    // If the portfolio name is "new", then we can't create it
+    if (newPortfolioName.toLowerCase() === "new") {
+      toast({
+        variant: "destructive",
+        title: "Portfolio name cannot be 'new'",
+        duration: 3000,
+      })
+      return
+    }
+
+    // Convert to slug and check for duplicate slugs
+    const newPortfolioSlug = slugify(newPortfolioName)
+    if (portfolios.find((portfolio) => portfolio.slug === newPortfolioSlug)) {
       toast({
         variant: "destructive",
         title: "Portfolio name already exists",
@@ -63,22 +82,43 @@ export default function PortfolioNav({ params }: { params: { id: number } }) {
       return
     }
 
-    portfolios.push({ id: portfolios.length + 1, name: newPortfolioValue, description: "" })
-    handlePortfolioChange(portfolios.length)
-    setNewPortfolioValue("")
+    // Send a POST request to the API to create a new portfolio
+    const res = await fetch('/api/portfolio', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: newPortfolioName,
+      }),
+    })
+
+    const portfolio = await res.json()
+    if (portfolio.error || res.status !== 200) {
+      toast({
+        variant: "destructive",
+        title: "Portfolio couldn't be created",
+        duration: 3000,
+      })
+      return
+    }
+    // portfolios.push({ id: id, name: newPortfolioName, userId: "test", slug: "test", description: "" })
+    handlePortfolioChange(portfolio[0])
+    setNewPortfolioName("")
     setDialogOpen(false)
   }
 
   function handleChange(event : any) {
-    setNewPortfolioValue(event.target.value)
+    setNewPortfolioName(event.target.value)
   }
 
-  function handlePortfolioChange(value : any) {
-    setPortfolioValue(value)
+  function handlePortfolioChange(value : Portfolio | null = null) {
+    setCurrentPortfolio(value)
     router.refresh()
-    router.push(`/portfolio/${value}`)
+    if (value) {
+      router.push(`/portfolio/${value.slug}`)
+    }
   }
-
 
   useEffect(() => {
     // Fetch the portfolios and set them to the local state
@@ -86,17 +126,15 @@ export default function PortfolioNav({ params }: { params: { id: number } }) {
       const data = await fetch("/api/portfolio").then((res) => res.json());
       setPortfolios(data);
     }
-
     loadData();
   }, []);
-
 
   return (
     <nav className="flex h-16 grow flex-row items-center justify-end space-x-10 px-4">
       <div className="flex-grow hidden sm:block"></div>
       <div className="flex">
         <PortfolioPicker
-          value={portfolioValue}
+          value={currentPortfolio}
           onValueChange={handlePortfolioChange}
           portfolios={portfolios}
         />
@@ -125,7 +163,7 @@ export default function PortfolioNav({ params }: { params: { id: number } }) {
                     Portfolio Name
                   </Label>
                   <Input id="name" placeholder="Personal savings" className="col-span-3" 
-                   value={newPortfolioValue} onChange={handleChange}/>
+                   value={newPortfolioName} onChange={handleChange}/>
                 </div>
               </div>
               <DialogFooter>

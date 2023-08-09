@@ -19,10 +19,9 @@ import {
 } from "@/components/ui/popover";
 import { Portfolio } from "@/db/schema/portfolio";
 
-
 interface PortfolioPickerProps {
-  value: number;
-  onValueChange: (value: number) => void;
+  value: Portfolio | null;
+  onValueChange: (value: Portfolio) => void;
   portfolios: Portfolio[];
 }
 
@@ -44,7 +43,7 @@ export function PortfolioPicker({
           className="w-[200px] justify-between"
         >
           {value
-            ? portfolios.find((portfolio) => portfolio.id === value)?.name
+            ? value.name
             : "Select portfolio..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -58,14 +57,14 @@ export function PortfolioPicker({
               <CommandItem
                 key={portfolio.id}
                 onSelect={() => {
-                  onValueChange(portfolio.id)
+                  onValueChange(portfolio)
                   setOpen(false);
                 }}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === portfolio.id ? "opacity-100" : "opacity-0",
+                    value ? (value.id === portfolio.id ? "opacity-100" : "opacity-0") : "opacity-0",
                   )}
                 />
                 {portfolio.name}
