@@ -11,4 +11,3 @@ export const portfolioTable = pgTable('portfolio', {
 // TODO: Add a unique index on userId and slug
 
 export type Portfolio = InferModel<typeof portfolioTable, 'select'>
-export type CreatePortfolio = InferModel<typeof portfolioTable, 'insert'>

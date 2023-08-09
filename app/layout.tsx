@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
+import { Analytics } from '@vercel/analytics/react'
 
 import { ThemeProvider } from '@/components/theme-provider'
 import { MainNav } from '@/components/main-nav'
@@ -37,6 +38,7 @@ export default function RootLayout({
           </ThemeProvider>
           <TailwindIndicator />
           <Toaster />
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
