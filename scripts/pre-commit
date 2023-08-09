@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Check if there are changes in the /db/schema folder
+if git diff --name-only --cached | grep -q "^db/schema/"
+then
+  # Run the pnpm generate command
+  output=$(pnpm generate)
+
+  # Check the command output and decide what to do
+  if echo "$output" | grep -q "nothing to migrate"
+  then
+    # Continue with the commit
+    exit 0
+  else
+    # Remind the user to migrate
+    echo "There are database changes. Please run migrations before committing."
+    exit 1
+  fi
+fi
+
+# If no changes in /db/schema, continue with the commit
+exit 0

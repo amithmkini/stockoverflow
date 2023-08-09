@@ -9,17 +9,14 @@ import { Portfolio } from '@/db/schema/portfolio'
 
 export default function Portfolio() {
   const { push } = useRouter()
-  const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [firstPortfolio, setFirstPortfolio] = useState<Portfolio | null>(null)
 
   useEffect(() => {
-    // Fetch the portfolios and set them to the local state
+    // Fetch the portfolios and set the first one
     const loadData = async () => {
       const data = await fetch("/api/portfolio").then((res) => res.json());
-      setPortfolios(data);
       setFirstPortfolio(data[0])
     }
-
     loadData();
   }, []);
 

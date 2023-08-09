@@ -45,7 +45,7 @@ export default function PortfolioNav({ portfolio, showDialog = false }: Portfoli
   const [currentPortfolio, setCurrentPortfolio] = useState<Portfolio | null>(portfolio);
   const [newPortfolioName, setNewPortfolioName] = useState("")
 
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(showDialog)
   const { toast } = useToast()
   const router = useRouter()
 
@@ -128,6 +128,10 @@ export default function PortfolioNav({ portfolio, showDialog = false }: Portfoli
     }
     loadData();
   }, []);
+
+  useEffect(() => {
+    setDialogOpen(showDialog)
+  }, [showDialog])
 
   return (
     <nav className="flex h-16 grow flex-row items-center justify-end space-x-10 px-4">
