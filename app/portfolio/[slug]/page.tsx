@@ -2,7 +2,6 @@ import type { Metadata, ResolvingMetadata } from 'next'
 import { auth } from '@clerk/nextjs'
 import { eq, and } from 'drizzle-orm'
 
-import PortfolioNav from '../portfolio-nav'
 import { db } from '@/lib/db'
 import { portfolioTable } from '@/db/schema/portfolio'
 
@@ -60,7 +59,6 @@ export default async function Portfolio({
     return (
       <main>
         <div className="flex flex-col">
-          <PortfolioNav portfolio={null} />
           <div className="m-4 text-xl">Portfolio not found</div>
         </div>
       </main>
@@ -70,7 +68,6 @@ export default async function Portfolio({
   return (
     <main>
       <div className="flex flex-col">
-        <PortfolioNav portfolio={portfolio} />
         YOU ARE ON PORTFOLIO {portfolio.id}, and your user id is {userId}
       </div>
     </main>

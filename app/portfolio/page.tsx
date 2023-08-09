@@ -3,7 +3,6 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { PortfolioNavLoading } from './portfolio-nav'
 import { Portfolio } from '@/db/schema/portfolio'
 
 export default function Portfolio() {
@@ -22,9 +21,5 @@ export default function Portfolio() {
     loadData()
   }, [])
 
-  return (
-    <main>
-      <PortfolioNavLoading />
-    </main>
-  )
+  return <main></main>
 }

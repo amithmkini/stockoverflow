@@ -57,19 +57,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Duplicate portfolio' }, { status: 400 })
   }
 
+  // Not checking for collisions, because let's be honest, it's not going to happen.
   let portfolioId = uuidv4()
-  while (true) {
-    const dupPortfolioId = await db
-      .select()
-      .from(portfolioTable)
-      .where(eq(portfolioTable.id, portfolioId))
-    if (dupPortfolioId.length > 0) {
-      portfolioId = uuidv4()
-    } else {
-      break
-    }
-  }
-
   // Create the portfolio.
   const portfolio = await db
     .insert(portfolioTable)
@@ -81,6 +70,5 @@ export async function POST(request: NextRequest) {
     })
     .returning()
 
-  console.log(portfolio)
   return NextResponse.json(portfolio)
 }
