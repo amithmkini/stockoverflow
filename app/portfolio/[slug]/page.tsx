@@ -10,6 +10,10 @@ const metadata: Metadata = {
   description: 'Portfolio page of StockOverflow',
 }
 
+import { columns } from './columns'
+import { DataTable } from './data-table'
+import { getHoldings } from '../../actions'
+
 export async function generateMetadata({
   params,
 }: {
@@ -65,10 +69,15 @@ export default async function Portfolio({
     )
   }
 
+  const data = await getHoldings(portfolio.id)
+
   return (
     <main>
-      <div className="flex flex-col">
+      {/* <div className="flex flex-col">
         YOU ARE ON PORTFOLIO {portfolio.id}, and your user id is {userId}
+      </div> */}
+      <div className="container mx-auto py-10">
+        <DataTable columns={columns} data={data} />
       </div>
     </main>
   )

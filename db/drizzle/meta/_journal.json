@@ -8,6 +8,20 @@
       "when": 1691533036763,
       "tag": "0000_tiny_catseye",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1691742155945,
+      "tag": "0001_magical_maggott",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1691821596165,
+      "tag": "0002_slimy_molly_hayes",
+      "breakpoints": true
     }
   ]
 }

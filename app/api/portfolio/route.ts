@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs'
-import { config } from 'dotenv'
 import { and, eq } from 'drizzle-orm'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -8,7 +7,8 @@ import { portfolioTable } from '@/db/schema/portfolio'
 import { db } from '@/lib/db'
 import { slugify } from '@/lib/utils'
 
-config({ path: '.env.local' })
+
+export const runtime = 'edge'
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.nextUrl)
