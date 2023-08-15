@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { usePathname } from 'next/navigation'
 import { Open_Sans } from 'next/font/google'
+import { useAuth } from '@clerk/nextjs'
 
 const openSans = Open_Sans({ subsets: ['latin'] })
 
@@ -21,13 +22,18 @@ export function MainNav({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname()
+  const { isLoaded, userId } = useAuth()
+
+  const logoLink = isLoaded && userId ? '/portfolio' : '/'
 
   return (
     <div className="flex grow flex-row justify-between space-x-10">
       <div className="hidden sm:block">
-        <div className={cn('text-2xl font-bold', openSans.className)}>
-          <span className="text-orange-600">stock</span>overflow
-        </div>
+        <Link href={logoLink}>
+          <div className={cn('text-2xl font-bold', openSans.className)}>
+            <span className="text-orange-600">stock</span>overflow
+          </div>
+        </Link>
       </div>
       <nav
         className={cn('flex items-center space-x-4 lg:space-x-6', className)}

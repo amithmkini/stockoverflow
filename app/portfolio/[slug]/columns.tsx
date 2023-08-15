@@ -79,7 +79,11 @@ export const columns: ColumnDef<HoldingTable>[] = [
     cell: ({ row }) => {
       const holding = row.original
 
-      return <div className="text-sm">{(holding.quantity ?? 0) * Number(holding.price)}</div>
+      return (
+        <div className="text-sm">
+          {(holding.quantity ?? 0) * Number(holding.price)}
+        </div>
+      )
     },
   },
   {
@@ -89,7 +93,10 @@ export const columns: ColumnDef<HoldingTable>[] = [
     },
     cell: ({ row }) => {
       const holding = row.original
-      const value = ((holding.quantity ?? 0) * (Number(holding.price) - Number(holding.ltp))).toFixed(2)
+      const value = (
+        (holding.quantity ?? 0) *
+        (Number(holding.ltp) - Number(holding.price))
+      ).toFixed(2)
       return <div className="text-sm">{value}</div>
     },
   },
@@ -100,7 +107,8 @@ export const columns: ColumnDef<HoldingTable>[] = [
     },
     cell: ({ row }) => {
       const holding = row.original
-      const profit = ((holding.quantity ?? 0) * (Number(holding.price) - Number(holding.ltp)))
+      const profit =
+        (holding.quantity ?? 0) * (Number(holding.ltp) - Number(holding.price))
       const value = (holding.quantity ?? 0) * Number(holding.price)
       const percent = ((profit / value) * 100).toFixed(2)
       return <div className="text-sm">{percent} %</div>
@@ -122,7 +130,9 @@ export const columns: ColumnDef<HoldingTable>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(holding.symbol ?? '')}
+              onClick={() =>
+                navigator.clipboard.writeText(holding.symbol ?? '')
+              }
             >
               Copy Holding Symbol
             </DropdownMenuItem>

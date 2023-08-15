@@ -8,3 +8,10 @@ export type HoldingTable = {
   price: string
   quantity: number
 }
+
+export const HoldingAndTxSchema = z.object({
+  symbolId: z.coerce.number(),
+  avgPrice: z.coerce.number(),
+  quantity: z.coerce.number(),
+  txDate: z.coerce.date(),
+})

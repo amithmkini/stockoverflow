@@ -30,5 +30,13 @@ export const timeseriesTable = pgTable('timeseries', {
   volume: integer('volume').notNull(),
 })
 
+export const nseListTable = pgTable('nse_list', {
+  id: serial('id').primaryKey(),
+  date: date('date', { mode: 'date' }).notNull(),
+  md5sum: varchar('md5sum', { length: 255 }).notNull(),
+})
+
 export type Symbol = InferModel<typeof symbolTable, 'select'>
 export type Timeseries = InferModel<typeof timeseriesTable, 'select'>
+export type NseList = InferModel<typeof nseListTable, 'select'>
+

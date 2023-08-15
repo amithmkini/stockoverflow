@@ -13,6 +13,7 @@ const metadata: Metadata = {
 import { columns } from './columns'
 import { DataTable } from './data-table'
 import { getHoldings } from '../../actions'
+import HoldingButton from './new-holding-button'
 
 export async function generateMetadata({
   params,
@@ -73,11 +74,16 @@ export default async function Portfolio({
 
   return (
     <main>
-      {/* <div className="flex flex-col">
-        YOU ARE ON PORTFOLIO {portfolio.id}, and your user id is {userId}
-      </div> */}
-      <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={data} />
+      <div className="sm:container sm:mx-auto">
+        <div className="flex flex-col">
+          <div className="flex flex-col items-center justify-center sm:flex-row sm:justify-between">
+            <div className="mx-4 my-4 text-xl sm:mx-0">{portfolio.name}</div>
+            <div className="mx-4 my-4 flex sm:mx-0">
+              <HoldingButton portfolioId={portfolio.id} />
+            </div>
+          </div>
+          <DataTable columns={columns} data={data} />
+        </div>
       </div>
     </main>
   )

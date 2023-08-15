@@ -26,7 +26,7 @@ export async function getHoldings(
       symbol: symbolTable.symbol,
       ltp: symbolTable.currentPrice,
       price: holdingTable.avgPricePerShare,
-      quantity: holdingTable.quantity
+      quantity: holdingTable.quantity,
     })
     .from(holdingTable)
     .where(eq(holdingTable.portfolioId, portfolioId))
@@ -46,9 +46,13 @@ export async function addHoldingAndTx(
   if (!userId) {
     return
   }
+  // Print all the arguments
+  console.log(
+    `addHoldingAndTx(${portfolioId}, ${symbolId}, ${avgPricePerShare}, ${quantity}, ${txDate})`,
+  )
 
   const avg_price_per_share = String(avgPricePerShare)
-      
+
   // Add the holding to the portfolio
   const holdingId = uuid()
   await db.insert(holdingTable).values({
@@ -56,7 +60,7 @@ export async function addHoldingAndTx(
     portfolioId,
     symbolId,
     avgPricePerShare: avg_price_per_share,
-    quantity
+    quantity,
   })
 
   // Also add a transaction for the holding
@@ -69,6 +73,6 @@ export async function addHoldingAndTx(
     value: avg_price_per_share,
     brokerage: '0',
     stt: '0',
-    otherCharges: '0'
+    otherCharges: '0',
   })
 }

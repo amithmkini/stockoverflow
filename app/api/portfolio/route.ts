@@ -7,7 +7,6 @@ import { portfolioTable } from '@/db/schema/portfolio'
 import { db } from '@/lib/db'
 import { slugify } from '@/lib/utils'
 
-
 export const runtime = 'edge'
 
 export async function GET(request: NextRequest) {

@@ -22,6 +22,13 @@
       "when": 1691821596165,
       "tag": "0002_slimy_molly_hayes",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1692063279481,
+      "tag": "0003_breezy_silver_fox",
+      "breakpoints": true
     }
   ]
 }
