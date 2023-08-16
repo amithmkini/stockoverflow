@@ -66,6 +66,7 @@
     "drizzle-kit": "^0.19.12",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
-    "tsx": "^3.12.7"
+    "tsx": "^3.12.7",
+    "turbo": "^1.10.12"
   }
 }
