@@ -2,6 +2,8 @@ import * as z from 'zod'
 
 // For the table where we mix the holding and symbol tables
 export type HoldingTable = {
+  id: string
+  portfolioId: string
   name: string
   symbol: string
   ltp: string

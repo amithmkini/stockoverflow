@@ -184,7 +184,11 @@ export default function HoldingButton({ portfolioId }: HoldingButtonProps) {
             <DialogFooter>
               <div className="flex justify-end space-x-4">
                 <Button type="submit">Submit</Button>
-                <Button variant="outline" type="button" onClick={() => setDialogOpen(false)}>
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={() => setDialogOpen(false)}
+                >
                   Cancel
                 </Button>
               </div>

@@ -1,20 +1,10 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 
 import { DataTableColumnHeader } from '@/components/data-table-column-header'
 import { HoldingTable } from '@/app/types'
+import RowActions from './row-actions'
 
 export const columns: ColumnDef<HoldingTable>[] = [
   {
@@ -117,31 +107,7 @@ export const columns: ColumnDef<HoldingTable>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const holding = row.original
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open Menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(holding.symbol ?? '')
-              }
-            >
-              Copy Holding Symbol
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit/Delete holding</DropdownMenuItem>
-            <DropdownMenuItem>Buy/Sell holding</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
+      return <RowActions row={row} />
     },
   },
 ]

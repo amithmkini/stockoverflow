@@ -78,6 +78,8 @@ export async function getHoldings(
   // Get the holdings for the portfolio
   const holdings = await db
     .select({
+      id: holdingTable.id,
+      portfolioId: holdingTable.portfolioId,
       name: symbolTable.name,
       symbol: symbolTable.symbol,
       ltp: symbolTable.currentPrice,
@@ -102,10 +104,6 @@ export async function addHoldingAndTx(
   if (!userId) {
     return
   }
-  // Print all the arguments
-  console.log(
-    `addHoldingAndTx(${portfolioId}, ${symbolId}, ${avgPricePerShare}, ${quantity}, ${txDate})`,
-  )
 
   const avg_price_per_share = String(avgPricePerShare)
 
@@ -131,4 +129,29 @@ export async function addHoldingAndTx(
     stt: '0',
     otherCharges: '0',
   })
+}
+
+export async function deleteHoldingAndTx(
+  portfolioId: string,
+  holdingId: string,
+): Promise<void> {
+  const { userId } = auth()
+  if (!userId) {
+    return
+  }
+
+  // Delete the transactions for the holding
+  await db
+    .delete(transactionTable)
+    .where(eq(transactionTable.holdingsId, holdingId))
+
+  // Delete the holding from the portfolio
+  await db
+    .delete(holdingTable)
+    .where(
+      and(
+        eq(holdingTable.portfolioId, portfolioId),
+        eq(holdingTable.id, holdingId),
+      ),
+    )
 }
