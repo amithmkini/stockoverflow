@@ -1,12 +1,10 @@
 import { config } from 'dotenv'
-import { drizzle } from 'drizzle-orm/postgres-js'
-import { migrate } from 'drizzle-orm/postgres-js/migrator'
-import postgres from 'postgres'
+import { migrate } from 'drizzle-orm/vercel-postgres/migrator'
+import { drizzle } from 'drizzle-orm/vercel-postgres'
+import { sql } from '@vercel/postgres'
 
 config({ path: '.env.local' })
 
-const connectionString = process.env.DRIZZLE_DATABASE_URL!
-const sql = postgres(connectionString, { max: 1 })
 const db = drizzle(sql)
 
 const main = async () => {

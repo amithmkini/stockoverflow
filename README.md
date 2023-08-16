@@ -5,7 +5,7 @@ A stock portfolio management application built with [Next.js](https://nextjs.org
 ## Tech Stack
 
 - [Next.js](https://nextjs.org/)
-- [NeonDB](https://neon.tech/)
+- [Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres)
 - [TailwindCSS](https://tailwindcss.com/)
 - [Drizzle ORM](https://orm.drizzle.team/)
 - [Clerk Auth](https://clerk.com/)
@@ -18,7 +18,7 @@ A stock portfolio management application built with [Next.js](https://nextjs.org
 pnpm install
 ```
 
-- Setup [NeonDB](https://neon.tech/) account and create a database
+- Setup [Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres) to create a database
 - Setup [Clerk Auth](https://clerk.com/) account and create a project
 - Copy `.env.local.example` to `.env.local` and fill in the values as needed
 - Run the development server:
