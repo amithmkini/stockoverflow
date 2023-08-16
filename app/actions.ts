@@ -5,12 +5,68 @@ import { and, eq, sql } from 'drizzle-orm'
 import { v4 as uuid } from 'uuid'
 
 import { db } from '@/lib/db'
+import { slugify } from '@/lib/utils'
 
+import { portfolioTable, Portfolio } from '@/db/schema/portfolio'
 import { holdingTable, transactionTable } from '@/db/schema/holding'
 import { symbolTable } from '@/db/schema/stock'
 import { HoldingTable } from '@/app/types'
 
 // React Server actions
+export async function getPortfolios(): Promise<string[]> {
+  const { userId } = auth()
+  if (!userId) {
+    return []
+  }
+
+  // Get the portfolios for the user
+  const portfolios = await db
+    .select({
+      id: portfolioTable.id,
+      slug: portfolioTable.slug,
+    })
+    .from(portfolioTable)
+    .where(eq(portfolioTable.userId, userId))
+
+  return portfolios.map((portfolio) => portfolio.slug)
+}
+
+export async function addPortfolio(name: string): Promise<Portfolio | null> {
+  const { userId } = auth()
+  if (!userId) {
+    return null
+  }
+
+  // Add the portfolio to the user
+  const slug = slugify(name)
+
+  // Check for duplicate portfolio slug and userId
+  const dupPortfolio = await db
+    .select({
+      id: portfolioTable.id,
+    })
+    .from(portfolioTable)
+    .where(
+      and(eq(portfolioTable.slug, slug), eq(portfolioTable.userId, userId)),
+    )
+
+  if (dupPortfolio.length > 0) {
+    throw new Error('Portfolio already exists')
+  }
+
+  const portfolio = await db
+    .insert(portfolioTable)
+    .values({
+      id: uuid(),
+      userId,
+      name,
+      slug,
+    })
+    .returning()
+
+  return portfolio[0]
+}
+
 export async function getHoldings(
   portfolioId: string,
 ): Promise<HoldingTable[]> {

@@ -1,5 +1,7 @@
 import { Portfolio } from '@/db/schema/portfolio'
 
-export default function Portfolio({ params }: { params: { slug: string } }) {
+export const runtime = 'edge'
+
+export default function Portfolio() {
   return <main></main>
 }

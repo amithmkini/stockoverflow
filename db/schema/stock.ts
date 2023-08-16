@@ -39,4 +39,3 @@ export const nseListTable = pgTable('nse_list', {
 export type Symbol = InferModel<typeof symbolTable, 'select'>
 export type Timeseries = InferModel<typeof timeseriesTable, 'select'>
 export type NseList = InferModel<typeof nseListTable, 'select'>
-

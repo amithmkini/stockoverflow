@@ -23,6 +23,7 @@ import { PortfolioPicker } from '@/components/portfolio-picker'
 
 import { Portfolio } from '@/db/schema/portfolio'
 import { slugify } from '@/lib/utils'
+import { addPortfolio } from '@/app/actions'
 
 export function PortfolioNavLoading() {
   return (
@@ -131,18 +132,9 @@ export default function PortfolioNav({ portfolios }: PortfolioNavProps) {
     }
 
     // Send a POST request to the API to create a new portfolio
-    const res = await fetch('/api/portfolio', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: newPortfolioName,
-      }),
-    })
+    const portfolio = await addPortfolio(newPortfolioName)
 
-    const portfolio = await res.json()
-    if (portfolio.error || res.status !== 200) {
+    if (!portfolio) {
       toast({
         variant: 'destructive',
         title: "Portfolio couldn't be created",
@@ -151,7 +143,7 @@ export default function PortfolioNav({ portfolios }: PortfolioNavProps) {
       return
     }
     // portfolios.push({ id: id, name: newPortfolioName, userId: "test", slug: "test", description: "" })
-    handlePortfolioChange(portfolio[0])
+    handlePortfolioChange(portfolio)
     setNewPortfolioName('')
     setDialogOpen(false)
   }

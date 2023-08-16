@@ -1,4 +1,4 @@
-import type { Metadata, ResolvingMetadata } from 'next'
+import type { Metadata } from 'next'
 import { auth } from '@clerk/nextjs'
 import { eq, and } from 'drizzle-orm'
 
@@ -12,7 +12,7 @@ const metadata: Metadata = {
 
 import { columns } from './columns'
 import { DataTable } from './data-table'
-import { getHoldings } from '../../actions'
+import { getHoldings } from '@/app/actions'
 import HoldingButton from './new-holding-button'
 
 export async function generateMetadata({

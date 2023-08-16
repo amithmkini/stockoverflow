@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { eq } from 'drizzle-orm'
 import { md5 } from 'hash-wasm'
-import { parse } from 'csv-parse/sync' 
+import { parse } from 'csv-parse/sync'
 
 import { db } from '@/lib/db'
 import { nseListTable } from '@/db/schema/stock'
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
   // 3. If the list has changed, parse the CSV list and get the symbols
   // 4. For each symbol in the list, check if the symbol exists in the database
   // 5. If the symbol does not exist, add it to the database
-  
+
   const nseEquityList = await fetch(process.env.NSE_EQUITY_LIST_URL!)
   const nseEquityListText = await nseEquityList.text()
   const nseEquityListMd5sum = await md5(nseEquityListText)
@@ -27,15 +27,18 @@ export async function GET(request: NextRequest) {
   if (nseList) {
     return NextResponse.json({
       status: 200,
-      message: "NSE Equity List has not changed",
+      message: 'NSE Equity List has not changed',
       md5sum: nseEquityListMd5sum,
     })
   }
 
-  await db.insert(nseListTable).values({
-    date: new Date(),
-    md5sum: nseEquityListMd5sum,
-  }).execute()
+  await db
+    .insert(nseListTable)
+    .values({
+      date: new Date(),
+      md5sum: nseEquityListMd5sum,
+    })
+    .execute()
 
   // Now parse the CSV file and get the symbols
   await parse(nseEquityListText, {
@@ -45,7 +48,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({
     status: 200,
-    message: "NSE Equity List has changed",
+    message: 'NSE Equity List has changed',
     md5sum: nseEquityListMd5sum,
   })
 }

@@ -1,4 +1,4 @@
-import type { Metadata, ResolvingMetadata } from 'next'
+import type { Metadata } from 'next'
 import { auth } from '@clerk/nextjs'
 import { eq, and } from 'drizzle-orm'
 
