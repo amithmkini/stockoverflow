@@ -45,7 +45,7 @@
     "eslint-config-next": "13.4.12",
     "hash-wasm": "^4.9.0",
     "lucide-react": "^0.263.1",
-    "next": "13.4.13",
+    "next": "13.5.0",
     "next-themes": "^0.2.1",
     "pg": "^8.11.2",
     "postcss": "8.4.27",
